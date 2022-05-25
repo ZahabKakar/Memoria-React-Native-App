@@ -1,8 +1,14 @@
-import { View, Text, StyleSheet, Image } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableWithoutFeedback,
+} from "react-native";
+import React, { useState } from "react";
 import { widthToDp, heightToDp } from "../Constants/Dimensions";
 
-const HomeImage = ({ title, image, date, month, heading }) => {
+const HomeImage = ({ onPress, image, date, month, heading }) => {
   return (
     <View style={styles.item}>
       <View>
@@ -13,24 +19,17 @@ const HomeImage = ({ title, image, date, month, heading }) => {
           }}
         />
         <View style={styles.dateContainer}>
-          <Text style={[styles.datetext, { fontSize: widthToDp(9) }]}>
+          <Text style={[styles.datetext, { fontSize: widthToDp(12) }]}>
             {date}
           </Text>
           <Text style={styles.datetext}>{month}</Text>
         </View>
-        <Text
-          style={[
-            styles.datetext,
-            {
-              position: "absolute",
-              bottom: 0,
-              padding: widthToDp(2),
-              color: "#fff",
-            },
-          ]}
+        <TouchableWithoutFeedback
+          onPress={onPress}
+          style={styles.headingContainer}
         >
-          {heading}
-        </Text>
+          <Text style={[styles.datetext, styles.heading]}>{heading}</Text>
+        </TouchableWithoutFeedback>
       </View>
     </View>
   );
@@ -40,33 +39,44 @@ export default HomeImage;
 
 const styles = StyleSheet.create({
   image: {
-    width: widthToDp(90),
-    height: heightToDp(50),
+    width: widthToDp(85),
+    height: "100%",
     resizeMode: "cover",
-    opacity: 0.9,
-    borderRadius: widthToDp(2),
+    borderRadius: widthToDp(5),
   },
   item: {
-    width: widthToDp(90),
-    height: heightToDp(50),
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-    margin: heightToDp(5),
-  },
-  title: {
-    fontSize: 32,
-  },
   dateContainer: {
-    width: widthToDp(20),
-    height: heightToDp(18),
+    width: widthToDp(25),
+    height: heightToDp(25),
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.21)",
+    backgroundColor: "rgba(255, 255, 255, 0.30)",
     borderBottomRightRadius: widthToDp(5),
   },
   datetext: {
     fontSize: widthToDp(5),
     textTransform: "uppercase",
-    color: "gray",
+    color: "white",
+  },
+  heading: {
+    width: widthToDp(85),
+    position: "absolute",
+    bottom: 0,
+    fontWeight: "bold",
+    padding: widthToDp(3),
+    textAlign: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.49)",
+  },
+  headingContainer: {
+    width: widthToDp(80),
+    backgroundColor: "#FFF0E9",
+    borderBottomLeftRadius: widthToDp(2),
+    borderBottomRightRadius: widthToDp(2),
   },
 });

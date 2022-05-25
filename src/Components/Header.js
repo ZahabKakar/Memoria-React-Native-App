@@ -3,12 +3,14 @@ import React from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { widthToDp } from "../Constants/Dimensions";
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "../Constants/Colors";
 const Header = ({ title, iconLeft, iconRight }) => {
   return (
     <View style={styles.container}>
-      {!iconLeft && <AntDesign name="arrowleft" size={24} color="gray" />}
+      {iconLeft && <AntDesign name="arrowleft" size={24} color={Colors.gray} />}
       <Text style={styles.text}>{title}</Text>
-      {!iconRight && <EvilIcons name="close" size={24} color="gray" />}
+      {iconRight && iconRight}
     </View>
   );
 };
@@ -21,10 +23,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
   },
   text: {
     fontSize: widthToDp(5),
-    color: "gray",
+    color: Colors.icon,
+    textAlign: "center",
+    width: "90%",
   },
 });

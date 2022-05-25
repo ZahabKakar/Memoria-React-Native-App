@@ -3,21 +3,21 @@ const Mongoose = require("mongoose");
 const userSchema = new Mongoose.Schema({
   name: {
     type: String,
+    max: 20,
+    min: 6,
     required: true,
-    Min: 6,
-    max: 255,
   },
   email: {
     type: String,
-    required: true,
+    max: 50,
     min: 6,
-    max: 255,
+    required: true,
   },
   password: {
     type: String,
-    required: true,
-    max: 1024,
+    max: 50,
     min: 6,
+    required: true,
   },
   date: {
     type: Date,
@@ -25,20 +25,4 @@ const userSchema = new Mongoose.Schema({
   },
 });
 
-const Api = new Mongoose.Schema({
-  title: {
-    type: String,
-    max: 100,
-    required: true,
-  },
-  story: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
 module.exports = Mongoose.model("AuthData", userSchema);
-module.exports = Mongoose.model("PostData", Api);

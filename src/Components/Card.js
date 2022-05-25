@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { heightToDp, width, widthToDp } from "../Constants/Dimensions";
-
-const Card = ({ date }) => {
+import moment from "moment";
+const Card = ({ date, title }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.date}>{date}</Text>
+      <Text style={styles.date}>{moment(date).format("YYYY-MM-DD")}</Text>
 
-      <Text style={styles.heading}>Full day Hike in the Mountain</Text>
+      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     paddingTop: heightToDp(1),
     paddingBottom: heightToDp(1),
   },
-  heading: {
+  title: {
     fontSize: widthToDp(4),
     letterSpacing: 1,
     textTransform: "capitalize",

@@ -1,42 +1,74 @@
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { widthToDp, heightToDp } from "../Constants/Dimensions";
 import Card from "../Components/Card";
 import Colors from "../Constants/Colors";
-const DairyCom = ({ image, heading, text }) => {
-  return (
-    <View style={styles.container}>
-      <View>
-        <View style={styles.dateContainer}>
-          <Text style={[styles.datetext, { fontSize: widthToDp(9) }]}>12</Text>
-          <Text style={styles.datetext}>Jan</Text>
-        </View>
-      </View>
-      <View>
-        {image ? (
-          <Image
-            style={styles.image}
-            source={{
-              uri: image,
-            }}
-          />
-        ) : (
-          <View style={styles.dairyContainer}>
-            <View>
-              <Text style={styles.heading}>{heading}</Text>
+import moment from "moment";
 
-              <ScrollView style={styles.textContainer} vertical={true}>
-                <Text style={styles.text}>{text}</Text>
-              </ScrollView>
+const DiaryCom = ({ image, heading, text, date, selectDate, onPress }) => {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.container}>
+        <>
+          <View>
+            <View style={styles.dateContainer}>
+              <Text style={[styles.datetext, { fontSize: widthToDp(9) }]}>
+                {moment(date).date()}
+              </Text>
+              <Text style={styles.datetext}>
+                {monthNames[moment(date).month()]}
+              </Text>
             </View>
           </View>
-        )}
+          <View>
+            {image ? (
+              <Image
+                style={styles.image}
+                source={{
+                  uri: image,
+                }}
+              />
+            ) : (
+              <View style={styles.DiaryContainer}>
+                <View>
+                  <Text style={styles.heading}>{heading}</Text>
+
+                  <ScrollView style={styles.textContainer} vertical={true}>
+                    <Text style={styles.text}>{text}</Text>
+                  </ScrollView>
+                </View>
+              </View>
+            )}
+          </View>
+        </>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-export default DairyCom;
+export default DiaryCom;
 
 const styles = StyleSheet.create({
   container: {
@@ -46,6 +78,7 @@ const styles = StyleSheet.create({
     shadowColor: "gray",
     alignSelf: "center",
     elevation: 10,
+    backgroundColor: "#fff",
     marginBottom: widthToDp(5),
   },
   image: {
@@ -65,7 +98,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     color: "gray",
   },
-  dairyContainer: {
+  DiaryContainer: {
     width: widthToDp(60),
     justifyContent: "center",
   },

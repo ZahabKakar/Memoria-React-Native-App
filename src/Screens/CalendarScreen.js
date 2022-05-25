@@ -5,14 +5,31 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import React, { useState, Fragment, useCallback, useMemo } from "react";
+import moment from "moment";
+import React, {
+  useState,
+  Fragment,
+  useCallback,
+  useMemo,
+  useEffect,
+} from "react";
 import { Calendar } from "react-native-calendars";
 import { heightToDp, width, widthToDp } from "../Constants/Dimensions";
 import Card from "../Components/Card";
+import DiaryCom from "../Components/DiaryCom";
+import Header from "../Components/Header";
+import Colors from "../Constants/Colors";
+import axios from "axios";
+import { Entypo } from "@expo/vector-icons";
+import { base_url } from "../Constants/API";
+import { useNavigation } from "@react-navigation/native";
 
-export default function CalendarScreen() {
+export default function CalendarScreen({ route }) {
+  const navigation = useNavigation();
   const [selectedValue, setSelectedValue] = useState(new Date());
+  const [diary, setDiary] = useState([]);
   const [selectDate, setSelectDate] = useState(null);
+  const [diaryBasedOnDate, setDiaryBasedOnDate] = useState([]);
   const getNewSelectedDate = useCallback(
     (date, shouldAdd) => {
       const newMonth = new Date(date).getMonth();
@@ -23,6 +40,17 @@ export default function CalendarScreen() {
     },
     [selectedValue]
   );
+
+  const marked = useMemo(() => {
+    return {
+      [selectDate]: {
+        selected: true,
+        disableTouchEvent: true,
+        selectedColor: Colors.icon,
+        // selectedTextColor: ,
+      },
+    };
+  }, [selectDate]);
   const onPressArrowLeft = useCallback(
     (subtract, month) => {
       const newDate = getNewSelectedDate(month, false);
@@ -47,57 +75,102 @@ export default function CalendarScreen() {
       onPress={() => console.warn("Tapped!")}
     >
       <Text style={styles.customTitle}>
-        {selectedValue.getMonth() + 1}-{selectedValue.getFullYear()}
+        {selectedValue.getMonth() + 1}/{selectedValue.getFullYear()}
       </Text>
     </TouchableOpacity>
   );
+  let url = base_url + "/findAll";
+  let todayDate = moment().format("YYYY-MM-DD");
+  useEffect(() => {
+    axios.get(url).then((res) => {
+      setDiary(res.data);
+      console.log(res.data);
+      let newData = res.data.filter((diaryData) => {
+        moment(diaryData.date).format("YYYY-MM-DD") == todayDate;
+        console.log(res.data);
+      });
+      console.log(newData);
+      setDiaryBasedOnDate(newData);
+    });
+
+    setSelectDate(todayDate);
+  }, []);
+
+  const getDataBasedOnDate = (newDate) => {
+    let newData = diary.filter(
+      (diaryData) => moment(diaryData.date).format("YYYY-MM-DD") == newDate
+    );
+    console.log(newData);
+    setDiaryBasedOnDate(newData);
+  };
 
   return (
-    <Fragment>
-      <View style={styles.container}>
-        <Calendar
-          style={styles.calendar}
-          // customHeaderTitle={CustomHeaderTitle}
-          onPressArrowLeft={onPressArrowLeft}
-          onPressArrowRight={onPressArrowRight}
-          onDayPress={(date) => {
-            setSelectDate(date.dateString);
-          }}
-        />
-        <View style={styles.dairyContainer}>
-          <Text style={styles.header}>Memories</Text>
-          <Text style={{ color: "#D1C2B2" }}>See All</Text>
+    <ScrollView showsVerticalScrollIndicator={false} vertical={true}>
+      <Fragment>
+        <View style={styles.container}>
+          <Header title="Calendar" />
+
+          <Calendar
+            style={styles.calendar}
+            // customHeaderTitle={CustomHeaderTitle}
+            onPressArrowLeft={onPressArrowLeft}
+            onPressArrowRight={onPressArrowRight}
+            onDayPress={(date) => {
+              console.log(date);
+              setSelectDate(date.dateString);
+              getDataBasedOnDate(date.dateString);
+            }}
+            customHeaderTitle={CustomHeaderTitle}
+            markedDates={marked}
+            theme={{
+              arrowColor: Colors.icon,
+            }}
+          />
+          <View style={styles.DiaryContainer}>
+            <Text style={styles.header}>Memories</Text>
+            <Text style={{ color: "#D1C2B2" }}>See All</Text>
+          </View>
+
+          {diaryBasedOnDate.map((item) => (
+            <DiaryCom
+              image={item.img}
+              heading={item.title}
+              text={item.story}
+              date={item.date}
+              selectDate={selectDate}
+              onPress={() =>
+                navigation.navigate("diary", {
+                  data: item,
+                })
+              }
+            />
+          ))}
+          {diaryBasedOnDate.length == 0 && (
+            <View style={styles.noDataContainer}>
+              <Entypo
+                style={{ padding: widthToDp(2) }}
+                name="emoji-sad"
+                size={54}
+                color={Colors.gray}
+              />
+              <Text style={styles.noData}>No data found</Text>
+            </View>
+          )}
         </View>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          vertical={true}
-          style={{ height: heightToDp(80) }}
-        >
-          {selectDate ? (
-            <>
-              <Card date={selectDate} />
-              <Card date={selectDate} />
-              <Card date={selectDate} />
-              <Card date={selectDate} />
-              <Card date={selectDate} />
-              <Card date={selectDate} />
-            </>
-          ) : null}
-        </ScrollView>
-      </View>
-    </Fragment>
+      </Fragment>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    // width: widthToDp(90),
+    flex: 1,
     alignItems: "center",
-    backgroundColor: "white",
   },
 
   calendar: {
     width: widthToDp(100),
-    paddingTop: heightToDp(3),
     marginBottom: 10,
   },
   switchContainer: {
@@ -144,9 +217,9 @@ const styles = StyleSheet.create({
   customTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#D1C2B2",
+    color: Colors.black,
   },
-  dairyContainer: {
+  DiaryContainer: {
     width: widthToDp(90),
     height: heightToDp(10),
     flexDirection: "row",
@@ -157,5 +230,14 @@ const styles = StyleSheet.create({
   header: {
     fontSize: widthToDp(5),
     fontWeight: "700",
+  },
+  noDataContainer: {
+    alignItems: "center",
+    padding: widthToDp(10),
+  },
+  noData: {
+    fontSize: widthToDp(5),
+    padding: widthToDp(3),
+    textTransform: "capitalize",
   },
 });

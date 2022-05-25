@@ -1,66 +1,116 @@
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Style from "../Screens/Auth/Style";
 import { heightToDp, widthToDp } from "../Constants/Dimensions";
 import Header from "../Components/Header";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "../Constants/Colors";
-const Dairy = () => {
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import SliderNativeComponent from "react-native/Libraries/Components/Slider/SliderNativeComponent";
+import axios from "axios";
+import { base_url } from "../Constants/API";
+
+const Diary = ({ route, story }) => {
+  const [DiaryData, setDiaryData] = useState({});
+  console.log(DiaryData);
+  const navigation = useNavigation();
+
+  function getData() {
+    console.log(route.params.data._id);
+    axios.get(base_url + "/Diary/" + route.params.data._id).then((e) => {
+      console.log("dasdas", e.data);
+      setDiaryData(e.data);
+    });
+  }
+
+  useEffect(() => {
+    getData();
+
+    const unsubscribe = navigation.addListener("focus", () => {
+      getData();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <View style={Style.container}>
       <Header
-        title="Dairy"
+        title="Diary"
         iconRight={
-          <Entypo name="dots-three-horizontal" size={24} color="gray" />
+          <Ionicons
+            name="close"
+            size={24}
+            color={Colors.gray}
+            onPress={() =>
+              navigation.navigate("bottomTab", { removeStates: true })
+            }
+          />
+          // <Entypo name="dots-three-horizontal" size={24} color="blue" />
         }
       />
-      <View style={styles.dairyContainer}>
+      <View style={styles.DiaryContainer}>
         <View>
-          <Text style={styles.date}>Friday, 13 March 2021</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            {/* <Text style={styles.date}>{DiaryData.date.slice(0, 10)}</Text> */}
+            <MaterialIcons
+              onPress={() => {
+                navigation.navigate("post", {
+                  edit: true,
+                  defaultData: DiaryData,
+                });
+              }}
+              name="edit"
+              size={24}
+              color={Colors.icon}
+            />
+          </View>
           <ScrollView
             style={styles.textContainer}
             vertical={true}
             showsVerticalScrollIndicator={false}
           >
-            <Image style={styles.image} source={require("../assets/flo.jpg")} />
+            <Image
+              style={styles.image}
+              source={{
+                uri: DiaryData.img,
+              }}
+            />
 
-            <Text style={styles.text}>
-              In publishing and graphic design, Lorem ipsum is a placeholder
-              text commonly used to demonstrate the visual form of a document or
-              a typeface without relying on meaningful content. Lorem ipsum may
-              be used as a placeholder before final copy is available.In
-              publishing and graphic design, Lorem ipsum is a placeholder text
-              commonly used to demonstrate the visual form of a document or a
-              typeface without relying on meaningful content. Lorem ipsum may be
-              used as a placeholder before final copy is available.In publishing
-              and graphic design, Lorem ipsum is a placeholder text commonly
-              used to demonstrate the visual form of a document or a typeface
-              without relying on meaningful content. Lorem ipsum may be used as
-              a placeholder before final copy is available. a placeholder text
-              commonly used to demonstrate the visual form of a document or a
-              typeface without relying on meaningful content. Lorem ipsum may be
-              used as a placeholder before final copy is available. used as a
-              placeholder before final copy is available. used as a placeholder
-              before final copy is available. used as a placeholder before final
-              copy is available.
+            <Text
+              style={{
+                fontSize: widthToDp(5),
+                fontWeight: "bold",
+                textTransform: "capitalize",
+                color: Colors.icon,
+              }}
+            >
+              {DiaryData.title}
             </Text>
+            <Text style={styles.text}>{DiaryData.story}</Text>
           </ScrollView>
         </View>
       </View>
-      <MaterialIcons name="edit" size={24} color={Colors.icon} />
     </View>
   );
 };
 
-export default Dairy;
+export default Diary;
 const styles = StyleSheet.create({
   image: {
     width: widthToDp(90),
-    height: heightToDp(60),
+    height: heightToDp(90),
     resizeMode: "contain",
   },
-  dairyContainer: {
+  DiaryContainer: {
     width: widthToDp(90),
   },
   date: {
@@ -74,7 +124,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   textContainer: {
-    height: "70%",
-    marginBottom: heightToDp(3),
+    // backgroundColor: "red",
+    height: "87%",
+    paddingBottom: "10%",
   },
 });

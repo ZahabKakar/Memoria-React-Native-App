@@ -14,22 +14,27 @@ const Input = ({
   textStyle,
   textAlign,
   inputStyle,
+  styleContainer,
+  keyboardType,
+  defaultValue,
 }) => {
   return (
     <>
-      <View style={styles.container}>
-        <Text style={[styles.text, textStyle]}>{title}</Text>
-
+      <View style={[styles.container, styleContainer]}>
+        {title && <Text style={[styles.text, textStyle]}>{title}</Text>}
         <View style={inputStyle}>
           <TextInput
-            style={[{ paddingTop: 3 }, style]}
+            style={style}
             multiline={multiline}
             onChangeText={onChange}
             placeholder={placeholder}
+            defaultValue={defaultValue}
             numberOfLines={numberOfLines}
             maxLength={maxLength}
             textAlignVertical="top"
             textAlign={textAlign}
+            clearButtonMode="always"
+            keyboardType={keyboardType}
           />
         </View>
       </View>
@@ -45,15 +50,14 @@ const styles = StyleSheet.create({
     width: widthToDp("90"),
     display: "flex",
     justifyContent: "center",
-    marginTop: heightToDp("5"),
-
-    marginBottom: heightToDp("5"),
+    // marginTop: heightToDp("5"),
+    // marginBottom: heightToDp("5"),
   },
 
   text: {
     fontSize: widthToDp(3.5),
     color: Colors.gray,
     fontWeight: "600",
-    paddingBottom: 5,
+    // paddingBottom: 5,
   },
 });
