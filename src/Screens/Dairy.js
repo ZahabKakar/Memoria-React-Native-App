@@ -8,13 +8,15 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "../Constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import moment from "moment";
+
 import SliderNativeComponent from "react-native/Libraries/Components/Slider/SliderNativeComponent";
 import axios from "axios";
 import { base_url } from "../Constants/API";
 
 const Diary = ({ route, story }) => {
   const [DiaryData, setDiaryData] = useState({});
-  console.log(DiaryData);
+  console.log("dateeeeeeeeeee", DiaryData);
   const navigation = useNavigation();
 
   function getData() {
@@ -60,7 +62,10 @@ const Diary = ({ route, story }) => {
               justifyContent: "space-between",
             }}
           >
-            {/* <Text style={styles.date}>{DiaryData.date.slice(0, 10)}</Text> */}
+            {/* {DiaryData.date.slice(0, 10)} */}
+            <Text style={styles.date}>
+              {moment(DiaryData.date).format("YYYY-MM-DD")}
+            </Text>
             <MaterialIcons
               onPress={() => {
                 navigation.navigate("post", {

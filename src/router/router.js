@@ -3,10 +3,9 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Post from "../Screens/Post";
-import Login from "../Screens/Auth/Login";
-import Register from "../Screens/Auth/Register";
+
 import BottomTab from "../Components/BottomTab";
-import Diary from "../Screens/Diary";
+import Diary from "../Screens/Dairy";
 const Stack = createNativeStackNavigator();
 
 export default function Router() {

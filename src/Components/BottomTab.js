@@ -3,7 +3,7 @@ import { StyleSheets } from "react-native";
 import { BottomNavigation } from "react-native-paper";
 import Post from "../Screens/Post";
 import Colors from "../Constants/Colors";
-import Diary from "../Screens/Diary";
+import Diary from "../Screens/Dairy";
 import Home from "../Screens/Home";
 import CalendarScreen from "../Screens/CalendarScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";

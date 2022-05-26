@@ -134,9 +134,9 @@ const Post = ({ route }) => {
     const data = new FormData();
     data.append("file", img);
     data.append("upload_preset", "upload_preset");
-    data.append("cloud_name", "cloud_name");
+    data.append("cloud_name", "CLOUDNAME");
 
-    fetch("https://api.cloudinary.com/v1_1/cloud_name/image/upload", {
+    fetch("https://api.cloudinary.com/v1_1/CLOUDNAME/image/upload", {
       method: "post",
       body: data,
     })

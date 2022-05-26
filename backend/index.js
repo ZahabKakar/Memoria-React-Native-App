@@ -6,7 +6,7 @@ const ngrok = require("ngrok");
 const mongoose = require("mongoose");
 //connect db
 
-mongoose.connect("MongooDB", { useNewUrlParser: true }, () => {
+mongoose.connect("MONGODB", { useNewUrlParser: true }, () => {
   console.log("connected db");
 });
 

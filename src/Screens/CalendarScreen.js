@@ -16,7 +16,7 @@ import React, {
 import { Calendar } from "react-native-calendars";
 import { heightToDp, width, widthToDp } from "../Constants/Dimensions";
 import Card from "../Components/Card";
-import DiaryCom from "../Components/DiaryCom";
+import DiaryCom from "../Components/DairyCom";
 import Header from "../Components/Header";
 import Colors from "../Constants/Colors";
 import axios from "axios";
@@ -84,12 +84,12 @@ export default function CalendarScreen({ route }) {
   useEffect(() => {
     axios.get(url).then((res) => {
       setDiary(res.data);
-      console.log(res.data);
+      // console.log("dataaaaa", res.data, diary);
       let newData = res.data.filter((diaryData) => {
         moment(diaryData.date).format("YYYY-MM-DD") == todayDate;
-        console.log(res.data);
+        // console.log("another sata", res.data);
       });
-      console.log(newData);
+      // console.log(newData);
       setDiaryBasedOnDate(newData);
     });
 
@@ -100,7 +100,7 @@ export default function CalendarScreen({ route }) {
     let newData = diary.filter(
       (diaryData) => moment(diaryData.date).format("YYYY-MM-DD") == newDate
     );
-    console.log(newData);
+    // console.log("datatat", newData);
     setDiaryBasedOnDate(newData);
   };
 
@@ -116,7 +116,7 @@ export default function CalendarScreen({ route }) {
             onPressArrowLeft={onPressArrowLeft}
             onPressArrowRight={onPressArrowRight}
             onDayPress={(date) => {
-              console.log(date);
+              // console.log(date);
               setSelectDate(date.dateString);
               getDataBasedOnDate(date.dateString);
             }}

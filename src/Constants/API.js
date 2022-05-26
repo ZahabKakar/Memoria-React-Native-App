@@ -1,2 +1,2 @@
-let base_url = "ngrok_URL";
+let base_url = "NGROK LINK";
 export { base_url };
