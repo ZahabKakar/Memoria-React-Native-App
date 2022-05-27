@@ -58,32 +58,32 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
   postModel
-    .findOne({
-      data: req.body.data,
-    })
-    .then((data) => {
-      res.send(data);
-    });
+    // .findOne({
+    //   data: req.body.data,
+    // })
+    // .then((data) => {
+    //   res.send(data);
+    // });
 
-  // .findById("626e6095877ece9a90fb5757")
-  // .then((data) => {
-  //   if (!data) {
-  //     return res.status(404).send({
-  //       message: "Message not found with id " + req.params.id,
-  //     });
-  //   }
-  //   res.send(data);
-  // })
-  // .catch((error) => {
-  //   if (error.kind === "ObjectId") {
-  //     return res.status(404).send({
-  //       message: "Message not found with id " + req.params.id,
-  //     });
-  //   }
-  //   return res.status(500).send({
-  //     message: "Error retrieving message with id " + req.params.id,
-  //   });
-  // });
+    .findById(req.params.id)
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({
+          message: "Message not found with id " + req.params.id,
+        });
+      }
+      res.send(data);
+    })
+    .catch((error) => {
+      if (error.kind === "ObjectId") {
+        return res.status(404).send({
+          message: "Message not found with id " + req.params.id,
+        });
+      }
+      return res.status(500).send({
+        message: "Error retrieving message with id " + req.params.id,
+      });
+    });
 };
 
 // update diary

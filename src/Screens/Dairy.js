@@ -10,26 +10,23 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
-import SliderNativeComponent from "react-native/Libraries/Components/Slider/SliderNativeComponent";
 import axios from "axios";
 import { base_url } from "../Constants/API";
 
 const Diary = ({ route, story }) => {
   const [DiaryData, setDiaryData] = useState({});
-  console.log("dateeeeeeeeeee", DiaryData);
+  // console.log("dateeeeeeeeeee", DiaryData);
   const navigation = useNavigation();
 
   function getData() {
-    console.log(route.params.data._id);
     axios.get(base_url + "/Diary/" + route.params.data._id).then((e) => {
-      console.log("dasdas", e.data);
       setDiaryData(e.data);
+      // console.log("NewData2", e.data);
     });
   }
 
   useEffect(() => {
     getData();
-
     const unsubscribe = navigation.addListener("focus", () => {
       getData();
     });

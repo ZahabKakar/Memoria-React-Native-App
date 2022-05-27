@@ -48,7 +48,7 @@ const Post = ({ route }) => {
           // date: date,
         })
         .then((res) => {
-          console.log(res.data);
+          console.log("newData", res.data);
           navigation.navigate("diary", {
             data: res.data,
           });
@@ -63,7 +63,7 @@ const Post = ({ route }) => {
           // moment(date).format("X")
         })
         .then((res) => {
-          console.log(res.data);
+          console.log("NewData", res.data._id);
           navigation.navigate("diary", {
             data: res.data,
           });

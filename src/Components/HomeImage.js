@@ -15,7 +15,9 @@ const HomeImage = ({ onPress, image, date, month, heading }) => {
         <Image
           style={styles.image}
           source={{
-            uri: image,
+            uri:
+              image ||
+              "https://images.unsplash.com/photo-1607827447604-d9a8c439186e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987",
           }}
         />
         <View style={styles.dateContainer}>
@@ -39,8 +41,9 @@ export default HomeImage;
 
 const styles = StyleSheet.create({
   image: {
+    flex: 1,
     width: widthToDp(85),
-    height: "100%",
+    // height: widthToDp(100),
     resizeMode: "cover",
     borderRadius: widthToDp(5),
   },
@@ -48,6 +51,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: widthToDp(2),
+    marginRight: widthToDp(5),
+    marginTop: widthToDp(2),
+    marginBottom: widthToDp(5),
+    // backgroundColor: "red",
   },
 
   dateContainer: {
