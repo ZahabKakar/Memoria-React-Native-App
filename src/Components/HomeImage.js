@@ -3,10 +3,12 @@ import {
   Text,
   StyleSheet,
   Image,
+  Dimensions,
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState } from "react";
 import { widthToDp, heightToDp } from "../Constants/Dimensions";
+const { width } = Dimensions.get("window");
 
 const HomeImage = ({ onPress, image, date, month, heading }) => {
   return (
@@ -42,19 +44,18 @@ export default HomeImage;
 const styles = StyleSheet.create({
   image: {
     flex: 1,
-    width: widthToDp(85),
+    width: widthToDp(87),
     // height: widthToDp(100),
     resizeMode: "cover",
     borderRadius: widthToDp(5),
   },
   item: {
+    width: width,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: widthToDp(2),
-    marginRight: widthToDp(5),
     marginTop: widthToDp(2),
-    marginBottom: widthToDp(5),
+    marginBottom: widthToDp(2),
     // backgroundColor: "red",
   },
 
@@ -65,15 +66,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255, 255, 255, 0.30)",
+    // backgroundColor: "#deb59b",
     borderBottomRightRadius: widthToDp(5),
   },
   datetext: {
     fontSize: widthToDp(5),
     textTransform: "uppercase",
-    color: "white",
+    color: "#deb59b",
   },
   heading: {
-    width: widthToDp(85),
+    width: widthToDp(87),
     position: "absolute",
     bottom: 0,
     fontWeight: "bold",

@@ -8,9 +8,9 @@ import Colors from "../Constants/Colors";
 const Header = ({ title, iconLeft, iconRight }) => {
   return (
     <View style={styles.container}>
-      {iconLeft && <AntDesign name="arrowleft" size={24} color={Colors.gray} />}
+      {iconLeft}
       <Text style={styles.text}>{title}</Text>
-      {iconRight && iconRight}
+      {iconRight}
     </View>
   );
 };
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    // justifyContent: "space-between",
+    justifyContent: "space-between",
   },
   text: {
     fontSize: widthToDp(5),

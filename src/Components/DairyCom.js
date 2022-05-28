@@ -12,7 +12,7 @@ import Card from "../Components/Card";
 import Colors from "../Constants/Colors";
 import moment from "moment";
 
-const DiaryCom = ({ image, heading, text, date, selectDate, onPress }) => {
+const DiaryCom = ({ image, heading, text, date, showDate, onPress }) => {
   const monthNames = [
     "January",
     "February",
@@ -52,13 +52,11 @@ const DiaryCom = ({ image, heading, text, date, selectDate, onPress }) => {
               />
             ) : (
               <View style={styles.DiaryContainer}>
-                <View>
-                  <Text style={styles.heading}>{heading}</Text>
+                <Text style={styles.heading}>{heading}</Text>
 
-                  <ScrollView style={styles.textContainer} vertical={true}>
-                    <Text style={styles.text}>{text}</Text>
-                  </ScrollView>
-                </View>
+                <ScrollView style={styles.textContainer} vertical={true}>
+                  <Text style={styles.text}>{text}</Text>
+                </ScrollView>
               </View>
             )}
           </View>
@@ -72,18 +70,22 @@ export default DiaryCom;
 
 const styles = StyleSheet.create({
   container: {
-    width: widthToDp(90),
-    height: heightToDp(40),
+    width: widthToDp(100),
+    height: heightToDp(50),
     flexDirection: "row",
     shadowColor: "gray",
     alignSelf: "center",
     elevation: 10,
+    alignItems: "center",
+    // marginleft: widthToDp(10),
     backgroundColor: "#fff",
     marginBottom: widthToDp(5),
+    marginLeft: widthToDp(10),
   },
   image: {
     width: widthToDp(70),
-    height: heightToDp(40),
+    height: heightToDp(50),
+    // flex: 1,
     resizeMode: "cover",
     borderRadius: widthToDp(5),
   },
@@ -100,7 +102,10 @@ const styles = StyleSheet.create({
   },
   DiaryContainer: {
     width: widthToDp(60),
+    flex: 1,
     justifyContent: "center",
+    marginTop: heightToDp(5),
+    backgroundColor: "red",
   },
   heading: {
     padding: widthToDp(2),

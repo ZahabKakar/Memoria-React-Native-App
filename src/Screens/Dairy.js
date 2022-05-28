@@ -107,10 +107,16 @@ const Diary = ({ route, story }) => {
 
 export default Diary;
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "red",
+    flex: 1,
+  },
   image: {
     width: widthToDp(90),
-    height: heightToDp(90),
-    resizeMode: "contain",
+    height: heightToDp(60),
+    resizeMode: "cover",
+    borderRadius: 10,
+    marginBottom: widthToDp(3),
   },
   DiaryContainer: {
     width: widthToDp(90),
