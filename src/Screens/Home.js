@@ -17,7 +17,7 @@ import axios from "axios";
 import { base_url } from "../Constants/API";
 const { width } = Dimensions.get("window");
 import moment from "moment";
-import Loader from "../Components/Loader";
+import LottieView from "lottie-react-native";
 const Home = ({ route }) => {
   const [selectedValue, setSelectedValue] = useState(new Date());
   const monthNames = [
@@ -39,6 +39,8 @@ const Home = ({ route }) => {
   const url = base_url + "/findAll";
   const navigation = useNavigation();
   const [data, setData] = useState([]);
+  const [active, setActive] = useState(true);
+
   // let currentMonth =
   useEffect(() => {
     axios.get(url).then((res) => {
@@ -47,7 +49,7 @@ const Home = ({ route }) => {
         (data) => moment(data.date).format("M") == month
       );
       setData(newData.reverse());
-      // console.log("=>", newData);
+      setActive(false);
     });
   }, []);
 
@@ -69,12 +71,31 @@ const Home = ({ route }) => {
   //   }, [])
   // );
 
+  if (active) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <LottieView
+          style={{ width: widthToDp(30) }}
+          source={require("../assets/loading.json")}
+          autoPlay
+          loop
+        />
+      </View>
+    );
+  }
+
   return (
     // <Text>asdsa</Text>
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
         <View style={styles.imageContainer}>
-          {data.length == 0 && (
+          {data.length == 0 && active == false && (
             <HomeImage
               heading="add"
               date={selectedValue.getDate()}
@@ -85,7 +106,7 @@ const Home = ({ route }) => {
               }}
             />
           )}
-          <Loader />
+
           {data.length > 0 && (
             <>
               <ScrollView
@@ -144,5 +165,10 @@ const styles = StyleSheet.create({
     width: "15%",
     borderRadius: 15,
     alignItems: "center",
+  },
+  loader: {
+    width: widthToDp(20),
+    alignSelf: "center",
+    height: heightToDp(60),
   },
 });

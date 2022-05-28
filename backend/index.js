@@ -5,7 +5,7 @@ const fs = require("fs");
 const ngrok = require("ngrok");
 const mongoose = require("mongoose");
 //connect db
-
+// MONGODB
 mongoose.connect("MONGODB", { useNewUrlParser: true }, () => {
   console.log("connected db");
 });
